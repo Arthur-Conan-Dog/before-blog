@@ -1,4 +1,4 @@
-## (A Cartoon Intro to Fiber)[https://www.youtube.com/watch?v=ZCuYPiUIONs]
+## [A Cartoon Intro to Fiber](https://www.youtube.com/watch?v=ZCuYPiUIONs)
 
 Fiber: new reconciliation algorithm for react.
 
