@@ -1,4 +1,4 @@
-# (Differences between debounce and throttle?)[https://css-tricks.com/debouncing-throttling-explained-examples/]
+# [Differences between debounce and throttle?](https://css-tricks.com/debouncing-throttling-explained-examples/)
 
 In summary:
 
