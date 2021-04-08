@@ -135,33 +135,43 @@ For the asynchronous code, the render will get a chance to run.
 
 From [processing model in html spec](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model), the basic algorithm can be summarized as:
 
-1. Dequeue a task from task queue.
+1. Dequeue and run the oldest task from the macrotask queue (e.g. “script”).
 
-2. Perform a microtask checkpoint, which may enqueue more microtasks.
+2. Execute all microtasks, perform a microtask checkpoint, which may enqueue more microtasks.
 
-3. Update rendering.
+3. Render changes if any.
 
-Refs that visualizes this:
+4. If the macrotask queue is empty, wait till a macrotask appears.
+
+5. Go to step 1.
+
+One go-around of the event loop will have exactly one task being processed from the macrotask queue.
+
+Refs that helps visualize this:
+
+- [Event loop: microtasks and macrotasks](https://javascript.info/event-loop)
+
+- [Difference between microtask and macrotask within an event loop context](https://stackoverflow.com/questions/25915634/difference-between-microtask-and-macrotask-within-an-event-loop-context)
+
+- [Tasks, microtasks, queues and schedules](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
 
 - [What the heck is the event loop anyway? | Philip Roberts | JSConf EU](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
 
-- https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/
+### Terms explanation
 
-Terms explanation:
-
-Tasks: eg. setTimeout callbacks.
+Tasks(Macrotasks): eg. script loads, setTimeout callbacks, event activates.
 
 Tasks queue: Task queues are sets, not queues, their are many task queues. Step one of the event loop processing model grabs the first runnable task from the chosen queue, instead of dequeuing the first task.
 
-Microtasks: eg. callbacks in promise.then, mutation observer callbacks.
+Microtasks: eg. callbacks in promise.then, mutation observer callbacks, “under the cover” of `await`, scheduled by `queueMicrotask`.
 
-Microtask queue: microtasks get processed after callbacks _as long as the call stack is empty_, and at the end of each task. Any additional microtasks queued during microtasks are added to the end of the queue and also processed.
+Microtask queue: microtasks get processed after callbacks _as long as the call stack is empty_, and at the end of each task. Any additional microtasks queued during microtasks are added to the end of the queue and also processed. That’s important, as it guarantees that the application environment is basically the same (no mouse coordinate changes, no new network data, etc) between microtasks.
 
 Renders: (requestAnimationFrame) styles layout painting
 
 Animation callback queue: clear all items, and defer the ones that are queued while processing to the next frame
 
-### Code samples
+### Code sample 1
 
 ```jsx
 console.log('script start');
@@ -189,6 +199,8 @@ For Chrome is: script start, script end, promise1, promise2, setTimeout
 
 After executing log 'script start' and log 'script end', the call stack is empty, and the microtasks queue has items, so 'promise1' gets executed. It enqueues another microtask 'promise2', which fullfills the microtasks queue again. Finally, task 'setTimeout' gets executed.
 
+### Code sample 2
+
 ```js
 button.addEventListener('click', () => {
   setTimeout(() => console.log('timeout 1'), 0);
@@ -210,10 +222,6 @@ button.addEventListener('click', () => {
 scenario 1: click on the button. => dispatch click event(task), anonymous click handler 1 is pushed to the JS stack, push setimout's callback into task queue, push .then to microtask queue, log 'listener 1', stack is empty, dequeue microtask & log 'microtask 1', event bubbles(note that previous task is still going on), anonymous click handler 2 is pushed to the JS stack... At last, task of dispatching click event is done, setimeout callback 1 & 2 get to be executed.
 
 scenario 2: directly call button.click(). => Since .click() will take a place in the call stack, before it's popped up from the call stack, all the microtasks won't be executed.
-
-Note: running script, dispatching events are tasks.
-
-Imagine there are four queues: task, microtask, JS stack, log. will help analysing a lot.
 
 ## Event loop implemented by Node.js
 
