@@ -115,7 +115,7 @@ For setup and cleanup: sometimes there are definitely good use cases for before*
 1. Testing implementation details
 
 ```jsx
-test('the increment method increments count', () => {
+test("the increment method increments count", () => {
   const wrapper = mount(<Counter />);
   // don't ever do this:
   expect(wrapper.instance().state.count).toBe(0);
