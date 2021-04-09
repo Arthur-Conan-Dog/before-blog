@@ -10,7 +10,7 @@
 
 ### How do I implement getDerivedStateFromProps?
 
-正常地写对比 prevProps & currentProps 的逻辑就可以，prevProps 可能通过 useState 创建 state object 来记录。
+正常地写对比 prevProps & currentProps 的逻辑就可以，prevProps 可能通过 useState 创建 object 来记录。
 
 ### [How do I implement shouldComponentUpdate?](https://reactjs.org/docs/hooks-faq.html#how-do-i-implement-shouldcomponentupdate)
 
@@ -49,7 +49,7 @@ A parent component that renders <FancyInput ref={fancyInputRef} /> would be able
 
 ### [How can I measure a DOM node?](https://reactjs.org/docs/hooks-faq.html#how-can-i-measure-a-dom-node)
 
-Use a callback ref:
+Use a callback ref. We didn’t choose useRef in this example because an object ref doesn’t notify us about changes to the current ref value. Using a callback ref ensures that even if a child component displays the measured node later (e.g. in response to a click), we still get notified about it in the parent component and can update the measurements.
 
 ```jsx
 function MeasureExample() {

@@ -1,5 +1,3 @@
-# Tasks
-
 # Fundamentals
 
 ## JSX
@@ -26,4 +24,4 @@ Uncontrolled Components
 
 由 HTML 元素自己管理状态，React 只读其状态。
 
-一个例外 => `<input type="file">` 由于 value 只读，其必须是 uncontrolled component。 => Formik 中如何实现？
+一个例外 => `<input type="file">` 由于 value 只读，其必须是 uncontrolled component。 => Q: Formik 中如何处理？
