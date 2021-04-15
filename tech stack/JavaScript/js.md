@@ -54,9 +54,9 @@ arrow functions have the same lexical scope rules as `function` functions do.
 
 global this(eg. window, global, self) = reference to the global scope object.
 
-4. hoist?
+4. hoisting?
 
-a variable being visible from the beginning of its enclosing scope, even though its declaration may appear further down in the scope.
+a variable being visible from the beginning of its enclosing scope, even though its declaration may appear further down in the scope. However, only the declaration is hoisted, the assignment (if there is one), will stay where it is.
 
 function hoisting first(only when declared via `function A() {}`), then variable hoisting(only when using `var`).
 

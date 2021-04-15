@@ -12,7 +12,7 @@ Purpose: 关注点分离 => 逻辑复用。
 
 Conventions:
 
-* Separate props of different usages
+- Separate props of different usages
 
   ```jsx
   render() {
@@ -28,23 +28,23 @@ Conventions:
   }
   ```
 
-* Maximizing Composability: Single-argument HOCs have the signature Component => Component. Functions whose output type is the same as its input type are really easy to compose together.
+- Maximizing Composability: Single-argument HOCs have the signature Component => Component. Functions whose output type is the same as its input type are really easy to compose together.
 
-* Configure a display name for easier debugging
+- Configure a display name for easier debugging
 
 Caveats:
 
-* Don’t Use HOCs Inside the render Method: or it will be re-created every render, and the internal states will be lost.
+- Don’t Use HOCs Inside the render Method: or it will be re-created every render, and the internal states will be lost.
 
-* Static Methods Must Be Copied Over:
+- Static Methods Must Be Copied Over:
 
-  * mannually set on HOC or use tools such as hoist-non-react-statics to copy automatically
+  - manually set on HOC or use tools such as hoist-non-react-statics to copy automatically
 
-  * export the static method separately from the component itself
+  - export the static method separately from the component itself
 
-* Refs Aren’t Passed Through
+- Refs Aren’t Passed Through
 
-  * forwardRef
+  - forwardRef
 
 ## Render Props
 
@@ -66,11 +66,11 @@ Purpose: 关注点分离 => 逻辑复用。条件渲染，组件对外暴露自�
 
 Conventions:
 
-* You can implement most higher-order components (HOC) using a regular component with a render prop.
+- You can implement most higher-order components (HOC) using a regular component with a render prop.
 
 Caveats:
 
-* Using a render prop can negate the advantage that comes from using React.PureComponent if you create the function inside a render method. To get around this problem, you can sometimes define the prop as an instance method. => - [ ] What about using children props?
+- Using a render prop can negate the advantage that comes from using React.PureComponent if you create the function inside a render method. To get around this problem, you can sometimes define the prop as an instance method. => - [ ] What about using children props?
 
 ## HOC vs Render Props vs Hooks
 
@@ -86,11 +86,9 @@ Caveats:
 
 5. Conclusion & When to use
 
-很好地给出了对比的维度，以及代码示例。大部分观点是在理的，我表示认同。
+很好地给出了对比的维度，以及代码示例。大部分观点是在理的，表示认同。
 
-不太认同的点：
-
-1. 关于 Performance，具体问题具体分析，并不能代表普遍情况下的性能，不过他也从渲染次数上说明了 hooks 的优势。
+不太认同的点：关于 Performance，需要具体问题具体分析，并不能代表普遍情况下的性能，不过作者也从渲染次数上说明了 hooks 的优势。
 
 ### [Avoiding HOC; Favoring render props](https://gist.github.com/heygrady/f9bf3b6dd93fe3d87ba87430fd3c20d5)
 
@@ -98,25 +96,25 @@ Reasons:
 
 Breaking the rules of HOC:
 
-* Not providing any derived props
+- Not providing any derived props
 
-* Not providing any callback props
+- Not providing any callback props
 
 Confusing and restrictive:
 
-* Creates a new "wrapped" component, complicating the React tree
+- Creates a new "wrapped" component, complicating the React tree
 
-* Only supports a single child, must be a component
+- Only supports a single child, must be a component
 
-* Requires additional compatibility code to work like a "normal" component
+- Requires additional compatibility code to work like a "normal" component
 
 Compatibility code:
 
-* Copy over static methods
+- Copy over static methods
 
-* forward refs
+- forward refs
 
-* wrapping the display name to make debug easier
+- wrapping the display name to make debug easier
 
 ### [Discussions on Reddit](https://www.reddit.com/r/reactjs/comments/azo7tm/confused_about_the_state_harhar_of_hoc_v_render/)
 
@@ -135,12 +133,12 @@ https://overreacted.io/why-do-hooks-rely-on-call-order/#flaw-8-too-much-ceremony
 #### [Support both Hooks and Render Props with a simple trick](https://americanexpress.io/hydra/)
 
 ```jsx
-import { useState } from 'react';
-import renderProps from 'render-props';
+import { useState } from "react";
+import renderProps from "render-props";
 
-const useCounter = initialCount => {
+const useCounter = (initialCount) => {
   const [count, setCount] = useState(initialCount);
-  const deltaCount = delta => setCount(count => count + delta);
+  const deltaCount = (delta) => setCount((count) => count + delta);
 
   return {
     count,

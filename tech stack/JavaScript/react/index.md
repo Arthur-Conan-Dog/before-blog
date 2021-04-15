@@ -4,7 +4,7 @@
 
 Syntax extension to JavaScript. JSX prevents injection attacks.
 
-## pure functions
+## Pure functions
 
 不会更改输入；相同输入，相同输出。
 
